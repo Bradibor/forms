@@ -8,7 +8,7 @@ import java.io.*;
 public class Application {
     public static void main(String[] args) throws TransformerException, FileNotFoundException {
         StreamSource styleSource = new StreamSource(new File("C:\\Users\\bradi\\IdeaProjects\\forms\\src\\main\\resources\\transformer.xsl"));
-        StreamSource dataSource = new StreamSource(new FileInputStream(new File("C:\\Users\\bradi\\IdeaProjects\\forms\\src\\main\\resources\\in.xml")));
+        StreamSource dataSource = new StreamSource(new FileInputStream(new File("C:\\Users\\bradi\\IdeaProjects\\forms\\src\\main\\resources\\formniiaa.xml")));
         Transformer transformer = TransformerFactory.newInstance().newTransformer(styleSource);
         File temp = new File("C:\\Users\\bradi\\IdeaProjects\\forms\\src\\main\\resources\\result.html");
         OutputStream out = new FileOutputStream(temp);
