@@ -17,79 +17,196 @@
     </xsl:template>
 
     <xsl:template match="form">
-        <div class="form">
-            <xsl:variable name="color" select="translate(object/@color, 'cl', '')"/>
-            <xsl:variable name="fontColor" select="translate(object/@fontColor, 'cl', '')"/>
-            <xsl:variable name="left" select="object/@left"/>
-            <xsl:variable name="top" select="object/@top"/>
-            <xsl:variable name="width" select="object/@width"/>
-            <xsl:variable name="height" select="object/@height"/>
-            <xsl:variable name="fontName" select="object/@fontName"/>
-            <xsl:variable name="fontStyle" select="object/@fontStyle"/>
-            <xsl:variable name="textHeight" select="object/@textHeight"/>
-            <xsl:variable name="caption" select="object/@caption"/>
-            <xsl:variable name="font-weight">
-                <xsl:choose>
-                    <xsl:when test="contains($fontStyle, 'Bold')">bold</xsl:when>
-                    <xsl:otherwise>normal</xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-            <xsl:variable name="font-style">
-                <xsl:choose>
-                    <xsl:when test="contains($fontStyle, 'Italic')">italic</xsl:when>
-                    <xsl:otherwise>normal</xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-            <xsl:variable name="text-decoration">
-                <xsl:choose>
-                    <xsl:when test="contains($fontStyle, 'StrikeOut') and contains($fontStyle, 'Underline')">line-through underline</xsl:when>
-                    <xsl:when test="contains($fontStyle, 'StrikeOut')">line-through</xsl:when>
-                    <xsl:when test="contains($fontStyle, 'Underline')">underline</xsl:when>
-                    <xsl:otherwise>none</xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-
-            <div class="caption" style="margin: {$top - 20}px {$left}px">
-                <xsl:value-of select="object/@caption"/>
-            </div>
-            <div class="object" style="position: absolute;background-color: {$color}; color: {$fontColor}; font-size: {$textHeight}px; font-family: {$fontName}, sans-serif;font-weight: {$font-weight};font-style: {$font-style};margin: {$top}px {$left}px;width: {$width}px;height: {$height}px;text-decoration: {$text-decoration}">
-                <xsl:apply-templates/>
-            </div>
-        </div>
-    </xsl:template>
-
-    <xsl:template match="label">
-        <div class="label">
-            <xsl:apply-templates select="object"/>
-        </div>
+        <xsl:if test="object/@aliasName != ''"><xsl:comment>aliasName=<xsl:value-of select="object/@aliasName"/></xsl:comment></xsl:if>
+        <xsl:if test="object/@SQLReq != ''"><xsl:comment>SQLReq=<xsl:value-of select="object/@SQLReq"/></xsl:comment></xsl:if>
+        <xsl:if test="object/@name != ''"><xsl:comment>name=<xsl:value-of select="object/@name"/></xsl:comment></xsl:if>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="object">
-        <xsl:call-template name="object">
-            <xsl:with-param name="color" select="translate(@color, 'cl', '')"/>
-            <xsl:with-param name="fontColor" select="translate(@fontColor, 'cl', '')"/>
-            <xsl:with-param name="fontName" select="@fontName"/>
-            <xsl:with-param name="textHeight" select="@textHeight"/>
-            <xsl:with-param name="fontStyle" select="@fontStyle"/>
-            <xsl:with-param name="caption" select="@caption"/>
-            <xsl:with-param name="left" select="@left"/>
-            <xsl:with-param name="top" select="@top"/>
-            <xsl:with-param name="width" select="@width"/>
-            <xsl:with-param name="height" select="@height"/>
-        </xsl:call-template>
+        <xsl:element name="div">
+            <xsl:call-template name="objectStyleAttributes"/>
+            <xsl:apply-templates/>
+        </xsl:element>
     </xsl:template>
 
-    <xsl:template name="object">
-        <xsl:param name="color"/>
-        <xsl:param name="fontColor"/>
-        <xsl:param name="left"/>
-        <xsl:param name="top"/>
+    <xsl:template match="label">
+        <xsl:for-each select="object">
+            <xsl:element name="div">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:value-of select="@caption"/>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="button">
+        <xsl:for-each select="object">
+            <xsl:element name="button">
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@event != ''"><xsl:comment>event=<xsl:value-of select="@event"/></xsl:comment></xsl:if>
+                <xsl:value-of select="@caption"/>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="speedButton">
+        <xsl:for-each select="object">
+            <xsl:element name="input">
+                <xsl:attribute name="type">image</xsl:attribute>
+                <xsl:attribute name="src">
+                    <xsl:choose>
+                        <xsl:when test="@imagepath != ''">
+                            <xsl:value-of select="@imagepath"/>
+                        </xsl:when>
+                        <xsl:otherwise>data:image/png;base64,<xsl:value-of select="."/></xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@event != ''"><xsl:comment>event=<xsl:value-of select="@event"/></xsl:comment></xsl:if>
+                <xsl:value-of select="@caption"/>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="pageControl">
+        <xsl:for-each select="object">
+            <xsl:element name="button">
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:value-of select="@caption"/>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="edit">
+        <xsl:for-each select="object">
+            <xsl:element name="input">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:attribute name="value">
+                    <xsl:value-of select="@text"/>
+                </xsl:attribute>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@readonly != ''"><xsl:comment>readonly=<xsl:value-of select="@readonly"/></xsl:comment></xsl:if>
+                <xsl:if test="@table != ''"><xsl:comment>table=<xsl:value-of select="@table"/></xsl:comment></xsl:if>
+                <xsl:if test="@field != ''"><xsl:comment>field=<xsl:value-of select="@field"/></xsl:comment></xsl:if>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="richEdit">
+        <xsl:for-each select="object">
+            <xsl:element name="input">
+                <xsl:if test="@text != ''"><xsl:attribute name="value"><xsl:value-of select="@text"/></xsl:attribute></xsl:if>
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@readonly != ''"><xsl:comment>readonly=<xsl:value-of select="@readonly"/></xsl:comment></xsl:if>
+                <xsl:if test="@table != ''"><xsl:comment>table=<xsl:value-of select="@table"/></xsl:comment></xsl:if>
+                <xsl:if test="@field != ''"><xsl:comment>field=<xsl:value-of select="@field"/></xsl:comment></xsl:if>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="image">
+        <xsl:for-each select="object">
+            <xsl:element name="img">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:attribute name="src">
+                    <xsl:value-of select="@imagepath"/>
+                </xsl:attribute>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@table != ''"><xsl:comment>table=<xsl:value-of select="@table"/></xsl:comment></xsl:if>
+                <xsl:if test="@field != ''"><xsl:comment>field=<xsl:value-of select="@field"/></xsl:comment></xsl:if>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="comboBox">
+        <xsl:for-each select="object">
+            <xsl:element name="select">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:if test="@cbSQLRec != ''"><xsl:comment>cbSQLRec=<xsl:value-of select="@cbSQLRec"/></xsl:comment></xsl:if>
+                <xsl:if test="@table != ''"><xsl:comment>table=<xsl:value-of select="@table"/></xsl:comment></xsl:if>
+                <xsl:if test="@field != ''"><xsl:comment>field=<xsl:value-of select="@field"/></xsl:comment></xsl:if>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="groupBox">
+        <xsl:for-each select="object">
+            <xsl:element name="fieldset">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <legend><xsl:value-of select="@caption"/></legend>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="stringGrid">
+        <xsl:for-each select="object">
+            <xsl:element name="div">
+                <xsl:if test="@name != ''"><xsl:attribute name="id"><xsl:value-of select="@name"/></xsl:attribute></xsl:if>
+                <xsl:attribute name="class">scrollableTable</xsl:attribute>
+                <xsl:call-template name="objectStyleAttributes"/>
+                <xsl:element name="table">
+                    <xsl:call-template name="tr-recursive">
+                        <xsl:with-param name="rows" select="@fixedRows + 1"/>
+                        <xsl:with-param name="cols" select="@colCount"/>
+                        <xsl:with-param name="width" select="@defaultColWidth"/>
+                        <xsl:with-param name="height" select="@defaultRowHeight"/>
+                    </xsl:call-template>
+                </xsl:element>
+            </xsl:element>
+        </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template name="tr-recursive">
+        <xsl:param name="i" select="1"/>
+        <xsl:param name="rows"/>
+        <xsl:param name="cols"/>
         <xsl:param name="width"/>
         <xsl:param name="height"/>
-        <xsl:param name="fontName"/>
-        <xsl:param name="fontStyle"/>
-        <xsl:param name="textHeight"/>
-        <xsl:param name="caption"/>
+        <tr>
+            <xsl:call-template name="td-recursive">
+                <xsl:with-param name="i" select="1"/>
+                <xsl:with-param name="cols" select="$cols"/>
+                <xsl:with-param name="width" select="$width"/>
+                <xsl:with-param name="height" select="$height"/>
+            </xsl:call-template>
+        </tr>
+        <xsl:if test="$i &lt; $rows">
+            <xsl:call-template name="tr-recursive">
+                <xsl:with-param name="i" select="$i + 1"/>
+                <xsl:with-param name="rows" select="$rows"/>
+                <xsl:with-param name="cols" select="$cols"/>
+                <xsl:with-param name="width" select="$width"/>
+                <xsl:with-param name="height" select="$height"/>
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="td-recursive">
+        <xsl:param name="i" select="0"/>
+        <xsl:param name="cols"/>
+        <xsl:param name="width"/>
+        <xsl:param name="height"/>
+        <xsl:element name="td">
+            <xsl:attribute name="style">min-width:<xsl:value-of select="$width"/>;height:<xsl:value-of select="$height"/></xsl:attribute>
+        </xsl:element>
+        <xsl:if test="$i &lt; $cols">
+            <xsl:call-template name="td-recursive">
+                <xsl:with-param name="i" select="$i + 1"/>
+                <xsl:with-param name="cols" select="$cols"/>
+                <xsl:with-param name="width" select="$width"/>
+                <xsl:with-param name="height" select="$height"/>
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="objectStyleAttributes">
+        <xsl:variable name="color" select="translate(@color, 'cl', '')"/>
+        <xsl:variable name="fontColor" select="translate(@fontColor, 'cl', '')"/>
+        <xsl:variable name="fontStyle" select="@fontStyle"/>
         <xsl:variable name="font-weight">
             <xsl:choose>
                 <xsl:when test="contains($fontStyle, 'Bold')">bold</xsl:when>
@@ -110,10 +227,17 @@
                 <xsl:otherwise>none</xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <div class="object" style="position: absolute;background-color: {$color}; color: {$fontColor}; font-size: {$textHeight}px; font-family: {$fontName}, sans-serif;font-weight: {$font-weight};font-style: {$font-style};margin: {$top}px {$left}px;width: {$width}px;height: {$height}px;text-decoration: {$text-decoration}">
-            <div class="caption">
-                <xsl:value-of select="@caption"/>
-            </div>
-        </div>
+        <xsl:attribute name="style">position: absolute; display: block;<xsl:if test="$color != ''">background-color: <xsl:value-of select = "$color"/>;</xsl:if>
+            <xsl:if test="$fontColor != ''">color: <xsl:value-of select = "$fontColor"/>;</xsl:if>
+            <xsl:if test="@textHeight != ''">font-size: <xsl:value-of select = "@textHeight"/>pt;</xsl:if>
+            <xsl:if test="@fontName != ''">font-family: <xsl:value-of select = "@fontName"/>, sans-serif;</xsl:if>
+            <xsl:if test="$font-weight != ''">font-weight: <xsl:value-of select = "$font-weight"/>;</xsl:if>
+            <xsl:if test="$font-style != ''">font-style: <xsl:value-of select = "$font-style"/>;</xsl:if>
+            <xsl:if test="@top != '' and @left != ''">margin: <xsl:value-of select = "@top"/>px <xsl:value-of select = "@left"/>px;</xsl:if>
+            <xsl:if test="@width != ''">width: <xsl:value-of select = "@width"/>px;</xsl:if>
+            <xsl:if test="@height != ''">height: <xsl:value-of select = "@height"/>px;</xsl:if>
+            <xsl:if test="$text-decoration != ''">text-decoration: <xsl:value-of select = "$text-decoration"/>;</xsl:if>
+            <xsl:if test="@wordwrap = 'false'">white-space: nowrap;overflow:auto</xsl:if>
+        </xsl:attribute>
     </xsl:template>
 </xsl:stylesheet>

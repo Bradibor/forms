@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='KOI8-R'?>
 <templateForm data="Mon 29. Apr 22:20:29 2019">
  <form>
-  <object width="573" caption="заголовокк" left="278" height="488" borderstyle="" textHeight="10" aliasName="TestDB" name="fmView" color="clGreen" fontName="Helvetica" top="341"/>
+  <object width="573" caption="заголовок" left="278" height="488" borderstyle="" textHeight="10" aliasName="TestDB" name="fmView" fontName="Helvetica" top="341"/>
   <label>
    <object width="151" caption="Это просто Label" left="120" height="67" akTop="true" textHeight="10" name="Label1" color="clDarkRed" fontColor="clMagenta" fontStyle="Bold " wordwrap="true" fontName="Helvetica" top="155" akLeft="true"/>
   </label>

@@ -1,3 +1,16 @@
 .caption {
     position: absolute;
 }
+
+table {
+    border: 1px solid grey;
+    overflow: auto;
+}
+
+td {
+    border: 1px solid grey;
+}
+
+.scrollableTable {
+    overflow: auto;
+}

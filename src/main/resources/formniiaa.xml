@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='KOI8-R'?>
 <templateForm data="Mon 20. May 03:30:34 2019">
  <form>
+  <edit>
+   <object width="173" left="84" height="46" viewInform="true" akTop="true" readonly="false" textHeight="10" name="Edit1" color="clCommon" fontName="Helvetica" top="307" akLeft="true" text="testtest"/>
+  </edit>
   <object width="670" left="630" height="488" borderstyle="" textHeight="10" aliasName="TestDB" name="fmView" fontName="Helvetica" top="415"/>
   <button>
    <object width="124" caption="Поиск" event="Выполнить" left="266" height="41" akTop="true" textHeight="10" name="Button1" fontName="Helvetica" top="309" akLeft="true"/>
   </button>
-  <edit>
-   <object width="173" left="84" height="46" viewInform="true" akTop="true" readonly="false" textHeight="10" name="Edit1" color="clCommon" fontName="Helvetica" top="307" akLeft="true"/>
-  </edit>
   <label>
-   <object width="142" caption="НИИАА" left="82" height="46" textHeight="26" name="Label1" color="clCyan" fontStyle="Bold,Italic " fontName="Helvetica" top="86"/>
+   <object width="142" caption="НИИАА" left="82" height="46" textHeight="26" name="Label1" color="clCyan" fontStyle="Bold,Italic " fontName="Helvetica" fontColor="clRed" top="86"/>
    <object width="296" caption="Акционерное общество ?Научно-исследовательский институт автоматической аппаратуры имени академика В. С. Семенихина? ? предприятие, осуществляющее разработку автоматизированных систем управления, как военного назначения, так и гражданского. Расположено в ЮЗАО города Москвы." left="81" height="137" akTop="true" textHeight="10" name="Label2" wordwrap="true" fontName="Helvetica" top="153" akLeft="true"/>
   </label>
   <image>
