@@ -150,10 +150,6 @@
                 <xsl:call-template name="objectStyleAttributes"/>
                 <xsl:element name="table">
                     <xsl:call-template name="tr-recursive">
-                        <xsl:with-param name="rows" select="@fixedRows + 1"/>
-                        <xsl:with-param name="cols" select="@colCount"/>
-                        <xsl:with-param name="width" select="@defaultColWidth"/>
-                        <xsl:with-param name="height" select="@defaultRowHeight"/>
                     </xsl:call-template>
                 </xsl:element>
             </xsl:element>
@@ -162,43 +158,26 @@
 
     <xsl:template name="tr-recursive">
         <xsl:param name="i" select="1"/>
-        <xsl:param name="rows"/>
-        <xsl:param name="cols"/>
-        <xsl:param name="width"/>
-        <xsl:param name="height"/>
         <tr>
             <xsl:call-template name="td-recursive">
                 <xsl:with-param name="i" select="1"/>
-                <xsl:with-param name="cols" select="$cols"/>
-                <xsl:with-param name="width" select="$width"/>
-                <xsl:with-param name="height" select="$height"/>
             </xsl:call-template>
         </tr>
-        <xsl:if test="$i &lt; $rows">
+        <xsl:if test="$i &lt; @fixedRows + 1">
             <xsl:call-template name="tr-recursive">
                 <xsl:with-param name="i" select="$i + 1"/>
-                <xsl:with-param name="rows" select="$rows"/>
-                <xsl:with-param name="cols" select="$cols"/>
-                <xsl:with-param name="width" select="$width"/>
-                <xsl:with-param name="height" select="$height"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
 
     <xsl:template name="td-recursive">
-        <xsl:param name="i" select="0"/>
-        <xsl:param name="cols"/>
-        <xsl:param name="width"/>
-        <xsl:param name="height"/>
+        <xsl:param name="i" select="1"/>
         <xsl:element name="td">
-            <xsl:attribute name="style">min-width:<xsl:value-of select="$width"/>;height:<xsl:value-of select="$height"/></xsl:attribute>
+            <xsl:attribute name="style">min-width:<xsl:value-of select="@defaultColWidth"/>px;height:<xsl:value-of select="@defaultRowHeight"/>px;</xsl:attribute>
         </xsl:element>
-        <xsl:if test="$i &lt; $cols">
+        <xsl:if test="$i &lt; @colCount">
             <xsl:call-template name="td-recursive">
                 <xsl:with-param name="i" select="$i + 1"/>
-                <xsl:with-param name="cols" select="$cols"/>
-                <xsl:with-param name="width" select="$width"/>
-                <xsl:with-param name="height" select="$height"/>
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
