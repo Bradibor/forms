@@ -8,7 +8,7 @@
                     <xsl:text> </xsl:text>
                     <xsl:value-of select="@data"/>
                 </title>
-                <link rel="stylesheet" href="default.css"/>
+                <link rel="stylesheet" href="/default.css"/>
             </head>
             <body>
                 <xsl:apply-templates/>

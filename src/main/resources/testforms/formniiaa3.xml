@@ -9,7 +9,7 @@
    <object width="173" left="84" height="46" viewInform="true" akTop="true" readonly="false" textHeight="10" name="Edit1" color="clCommon" text="Введите название" fontName="Helvetica" top="307" akLeft="true"/>
   </edit>
   <image>
-   <object width="244" imagepath="C:/Users/bradi/OneDrive/Documents/MEGA/MEGAsync/Documents/MIREA archive/dip/6b8c36f296a08971543c88cce734f070.png" left="408" height="266" akTop="true" name="Image1" top="83" akLeft="true" align=""/>
+   <object width="244" imagepath="http://www.oaosu.ru/upload/iblock/6b8/6b8c36f296a08971543c88cce734f070.png" left="408" height="266" akTop="true" name="Image1" top="83" akLeft="true" align=""/>
   </image>
   <label>
    <object width="142" caption="НИИАА" left="82" height="46" textHeight="26" name="Label1" color="clCyan" fontColor="clRed" fontStyle="Bold,Italic " fontName="Helvetica" top="86"/>

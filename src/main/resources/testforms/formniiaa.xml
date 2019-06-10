@@ -8,7 +8,7 @@
   <button>
    <object width="124" caption="Поиск" event="Выполнить" left="266" height="41" akTop="true" textHeight="10" name="Button1" fontName="Helvetica" top="309" akLeft="true"/>
   </button>
-  <label>
+  <labeldsaf>adf
    <object width="142" caption="НИИАА" left="82" height="46" textHeight="26" name="Label1" color="clCyan" fontStyle="Bold,Italic " fontName="Helvetica" fontColor="clRed" top="86"/>
    <object width="296" caption="Акционерное общество ?Научно-исследовательский институт автоматической аппаратуры имени академика В. С. Семенихина? ? предприятие, осуществляющее разработку автоматизированных систем управления, как военного назначения, так и гражданского. Расположено в ЮЗАО города Москвы." left="81" height="137" akTop="true" textHeight="10" name="Label2" wordwrap="true" fontName="Helvetica" top="153" akLeft="true"/>
   </label>
